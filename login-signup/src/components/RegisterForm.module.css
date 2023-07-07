@@ -1,0 +1,114 @@
+.signup {
+    display: block;
+    width: 320px;
+    height: 330px;
+    background-color: #fff;
+    margin-left: 65px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    gap: 24px;
+    box-shadow: rgb(61, 61, 59) 0px 12px 32px -9px;
+  }
+  .signupCardHeader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    border-bottom: 2px solid #f5efd7;
+    box-shadow: 0px 7px 8px -4px #f5efd7;
+  }
+  .signupCardHeader h2 {
+    color: #fcb50f;
+  }
+  .signupInputField {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 14px;
+    padding: 15px;
+  }
+
+  .signupBtn {
+    cursor: pointer;
+    padding: 10px;
+    margin-top: -5px;
+    width: 300px;
+    border-radius: 4px;
+    color: #fff;
+    background-color: #0a7070;
+    border: none;
+  }
+  .signupBtn:hover{
+  background-color: #71a8a8;
+  }
+  .pass {
+    display: flex;
+    flex-direction: column;
+    gap: 17px;
+    height: auto;
+    width: 100%;
+  }
+  .clipTextSignup{
+    display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  }
+  .clipTextSignup p {
+      color: #fff;
+      height: 15px;
+    }
+    .clipTextSignup a {
+      cursor: pointer;
+    }
+    .eyeImgSignup {
+      cursor: pointer;
+      width: 15px;
+      height: 15px;
+      padding: 10px;
+      margin-top: -46px;
+      margin-left: 254px;
+    }
+    .formError {
+      font-size: 8px;
+      color: #b22b27;
+      font-weight: 600;
+    }
+    .inputBlock{
+      display: flex;
+      width: 95%;
+      flex-direction: column;
+      padding: 2px 2px 2px;
+      border: 1px solid #757171;
+      border-radius: 4px;
+      transition: 0.3s;
+      height: 25px;
+      max-height: 25px;
+    }
+    .inputBlock input {
+      padding-top: 4px;
+      outline: 0;
+      border: 0;
+      font-size: 14px;
+  
+    }
+    .inputBlock input::-moz-placeholder {
+      color: #757171;
+      opacity: 1;
+    }
+    .inputBlock input:-ms-input-placeholder {
+      color: #757171;
+      opacity: 1;
+    }
+    .inputBlock input::placeholder {
+      color: #757171;
+      opacity: 1;
+    }
+    .inputBlock:focus-within {
+      border-color: #8c7569;
+    }
+    .inputBlock:focus-within .input-label {
+      color: rgba(140, 117, 105, 0.8);
+    }
