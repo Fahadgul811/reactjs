@@ -26,6 +26,7 @@ const SigninForm = () => {
          (user) => user.email === email && user.password === password
        );
        if (validate) {
+         console.log("🚀 ~ file: SigninForm.jsx:29 ~ SigninForm ~ validate:", validate)
          const id = validate.id;
      
          localStorage.setItem("UserId", id);
