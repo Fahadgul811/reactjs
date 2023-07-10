@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import styles from "./HomeContainer.module.css";
-import FloatingBtn from "./FloatingBtn";
+import styles from "../components/HomeContainer.module.css"
 import Modal from "./Modal";
 const HomeContainer = () => {
 
@@ -9,12 +8,10 @@ const [modal, setModal] = useState(false);
 
   return (
   <div>
-   
- 
-    <FloatingBtn setModal={setModal}/>
-   {modal === true && (
-    <Modal setModal={setModal}/>
-   )}
+    <button onClick={() => setModal(true)} className={styles.float}>+</button>
+   {modal  && 
+    <Modal onClose={()=> setModal(false)}/>
+   }
     
   </div>
  

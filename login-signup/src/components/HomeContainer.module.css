@@ -9,4 +9,23 @@ body {
 
   
   
-  
+  .float{
+    position:fixed;
+    width:70px;
+    height:70px;
+    bottom:40px;
+    right:40px;
+    background-color:cornflowerblue;
+    color:#FFF;
+    border-radius:50px;
+    text-align:center;
+    box-shadow: 2px 2px 3px #999;
+  border: none;
+  cursor: pointer;
+  font-weight: 400;
+  font-size: 54px;
+  z-index: 1000;
+}
+.float:hover{
+  background-color: rgb(27, 95, 221);
+}
