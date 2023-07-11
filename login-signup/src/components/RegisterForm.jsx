@@ -22,18 +22,15 @@ const RegisterForm = () => {
         const { name, email, password } = values;
         const user = {
           id,
-         name,
-         email,
-         password
+          name,
+          email,
+          password,
         };
-     
-  
+
         const prev = JSON.parse(localStorage.getItem("registration"));
 
-        
-  
         const validate = prev?.find((user) => user.email === email);
-  
+
         if (validate) {
           alert("user already exists");
           return;
@@ -41,10 +38,8 @@ const RegisterForm = () => {
         const update = [...(prev || []), user];
         localStorage.setItem("registration", JSON.stringify(update));
         alert("registration succcessful");
-        
+
         action.resetForm();
-
-
       },
     });
 

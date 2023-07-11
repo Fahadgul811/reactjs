@@ -42,16 +42,9 @@
   align-items: center;
   gap: 15px;
 }
-/* .input-field input {
-  border: 2px solid silver;
-  width: 215px;
-  height: 20px;
-  border-radius: 5px;
-  padding: 5px;
-} */
+
 .signInBtn {
   width: 100%;
-
   height: 35px;
   border-radius: 4px;
   color: #fff;
@@ -97,7 +90,7 @@
   font-weight: 600;
   color: #b22b27;
 }
-.inputBlock{
+.inputBlock {
   display: flex;
   width: 95%;
   flex-direction: column;
@@ -113,7 +106,6 @@
   outline: 0;
   border: 0;
   font-size: 14px;
-
 }
 .inputBlock input::-moz-placeholder {
   color: #757171;

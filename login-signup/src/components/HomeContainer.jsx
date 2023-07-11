@@ -3,23 +3,17 @@ import styles from "./HomeContainer.module.css";
 
 import Modal from "./Modal";
 const HomeContainer = () => {
-
-const [modal, setModal] = useState(false);
-
+  const [modal, setModal] = useState(false);
 
   return (
-  <div>
+    <div>
+      <button onClick={() => setModal(true)} className={styles.float}>
+        +
+      </button>
 
-    <button onClick={()=> setModal(true) } className={styles.float}>+</button>
-   
-
-   {modal === true && 
-    <Modal onClose={() => setModal(false)}/>
-   }
-    
-  </div>
- 
-    )
+      {modal === true && <Modal onClose={() => setModal(false)} />}
+    </div>
+  );
 };
 
 export default HomeContainer;

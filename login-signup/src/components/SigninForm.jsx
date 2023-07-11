@@ -9,7 +9,6 @@ import { useNavigate } from "react-router-dom";
 const initialValues = {
   email: "",
   password: "",
-  
 };
 
 const SigninForm = () => {
@@ -18,29 +17,24 @@ const SigninForm = () => {
     useFormik({
       initialValues,
       validationSchema: signInSchema,
-      onSubmit: (values, action ) => {    
-     
-       const {email, password} = values;
-       const prev = JSON.parse(localStorage.getItem("registration"));
-       const validate = prev?.find(
-         (user) => user.email === email && user.password === password
-       );
-       if (validate) {
-       
-         const id = validate.id;
-     
-         localStorage.setItem("UserId", id);
-         action.resetForm();
-         navigate("/HomeContainer");
-         return;
-       } 
-       else{
-        alert("invalid credentials");
-       }
+      onSubmit: (values, action) => {
+        const { email, password } = values;
+        const prev = JSON.parse(localStorage.getItem("registration"));
+        const validate = prev?.find(
+          (user) => user.email === email && user.password === password
+        );
+        if (validate) {
+          const id = validate.id;
+
+          localStorage.setItem("UserId", id);
+          action.resetForm();
+          navigate("/HomeContainer");
+          return;
+        } else {
+          alert("invalid credentials");
+        }
       },
-
     });
-
 
   const [toggle, setToggle] = useState(false);
 

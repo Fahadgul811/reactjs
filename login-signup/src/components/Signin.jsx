@@ -1,29 +1,23 @@
-import loginPerson from '../images/login-person.png';
-import styles from './Signin.module.css'
+import loginPerson from "../images/login-person.png";
+import styles from "./Signin.module.css";
 import SigninForm from "./SigninForm";
 import RegisterForm from "./RegisterForm";
-import { Routes, Route } from 'react-router-dom';
-
-
+import { Routes, Route } from "react-router-dom";
 
 const Signin = () => {
-
   return (
     <div className={styles.main}>
-  <div className={styles.mainbox}>
-   <img className={styles.img}  src={loginPerson} alt="" />
-   <div className={styles.clip}>
-    <Routes>
-        <Route exact path="/"element={ <SigninForm/>}/>
-        <Route exact path="RegisterForm"element={ <RegisterForm/>}/>
-{/* <SigninForm/>
-<RegisterForm/>  */}
-    </Routes>
-   </div>
-   
-  </div>
+      <div className={styles.mainbox}>
+        <img className={styles.img} src={loginPerson} alt="" />
+        <div className={styles.clip}>
+          <Routes>
+            <Route exact path="/" element={<SigninForm />} />
+            <Route exact path="RegisterForm" element={<RegisterForm />} />
+          </Routes>
+        </div>
+      </div>
     </div>
-    )
+  );
 };
 
 export default Signin;
