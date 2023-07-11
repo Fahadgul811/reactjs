@@ -12,6 +12,8 @@ const HomeContainer = () => {
       </button>
 
       {modal === true && <Modal onClose={() => setModal(false)} />}
+
+      
     </div>
   );
 };

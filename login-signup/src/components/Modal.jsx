@@ -1,7 +1,48 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./Modal.module.css";
 
 const Modal = ({ onClose }) => {
+  const id = Date.now();
+  const date = new Date().toLocaleDateString();
+  const [initialValue, setInitialValues] = useState({
+    title: "",
+    description: "",
+  });
+
+  const addCard = (e) => {
+    e.preventDefault();
+    const UserId = localStorage.getItem("UserId");
+    const notesId = JSON.parse(localStorage.getItem("Notes")) || [];
+
+    const userNotes = {
+      title: initialValue.title,
+      description: initialValue.description,
+      id: id,
+      date: date,
+    };
+    const unotes = notesId.find((value) => {
+      if (value.UserId === UserId) return value;
+    });
+    if (unotes !== undefined && unotes.UserId === UserId) {
+      const { notesArray } = unotes;
+
+      notesArray.push(userNotes);
+    } else {
+      const userData = {
+        UserId,
+        notesArray: [userNotes],
+      };
+      notesId.push(userData);
+    }
+    let validate = initialValue.title === "" && initialValue.description === "";
+    if (validate) {
+      alert("inputs empty");
+      return;
+    }
+    localStorage.setItem("Notes", JSON.stringify(notesId));
+    onClose();
+  };
+
   const ref = useRef();
   useEffect(() => {
     const checkIfClickedOutside = (e) => {
@@ -27,14 +68,27 @@ const Modal = ({ onClose }) => {
       <div className={styles.modalContent} ref={ref}>
         <form className={styles.form}>
           <input
-            id="title"
+            value={initialValue.title}
+            onChange={(e) =>
+              setInitialValues({ ...initialValue, title: e.target.value })
+            }
             className={styles.title}
             type="text"
             placeholder="Insert Title"
           />
-          <textarea id="description" placeholder="Enter text"></textarea>
+          <textarea
+            value={initialValue.description}
+            onChange={(e) =>
+              setInitialValues({ ...initialValue, description: e.target.value })
+            }
+            placeholder="Enter text"
+          ></textarea>
           <div className={styles.formButtons}>
-            <button className={styles.formAddbtn} type="submit">
+            <button
+              className={styles.formAddbtn}
+              type="submit"
+              onClick={addCard}
+            >
               Add Note
             </button>
             <button
