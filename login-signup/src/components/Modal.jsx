@@ -1,22 +1,25 @@
 import React, { useEffect, useRef } from "react";
-import styles from "../components/Modal.module.css";
+import styles from "./Modal.module.css";
 
 
 const Modal = ({ onClose }) => {
+ 
     const ref = useRef()
     useEffect(() => {
       const checkIfClickedOutside = e => {
         if (ref.current && !ref.current.contains(e.target)) {  
-          onClose()
+        console.log(!ref.current.contains(e.target));
         
+            onClose()
+            console.log("🚀 ~ file: Modal.jsx:13 ~ checkIfClickedOutside ~ onClose:", onClose)
         }
+     
       }
-      document.addEventListener("click", checkIfClickedOutside)
+        document.addEventListener("click", checkIfClickedOutside, true)
       return () => {
-        document.removeEventListener("click", checkIfClickedOutside)
+        document.removeEventListener("click", checkIfClickedOutside, true)
       }
-    }, [onClose])
-  
+    }, [ref])
     useEffect(() => {
       document.body.style.overflow = "hidden"
       return () => {
@@ -24,6 +27,7 @@ const Modal = ({ onClose }) => {
       }
     }, [])
   return (
+
     <div className={styles.modal}>
       <div className={styles.modalContent} ref={ref}>
         <form className={styles.form} >

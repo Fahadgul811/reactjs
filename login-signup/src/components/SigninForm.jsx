@@ -19,14 +19,14 @@ const SigninForm = () => {
       initialValues,
       validationSchema: signInSchema,
       onSubmit: (values, action ) => {    
-       console.log("🚀 ~ file: SigninForm.jsx:20 ~ SigninForm ~ values:", values)
+     
        const {email, password} = values;
        const prev = JSON.parse(localStorage.getItem("registration"));
        const validate = prev?.find(
          (user) => user.email === email && user.password === password
        );
        if (validate) {
-         console.log("🚀 ~ file: SigninForm.jsx:29 ~ SigninForm ~ validate:", validate)
+       
          const id = validate.id;
      
          localStorage.setItem("UserId", id);

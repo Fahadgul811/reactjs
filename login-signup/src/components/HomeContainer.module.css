@@ -5,10 +5,6 @@ body {
     margin: 20px;
     padding: 0px;
   }
-
-
-  
-  
   .float{
     position:fixed;
     width:70px;
@@ -19,12 +15,11 @@ body {
     color:#FFF;
     border-radius:50px;
     text-align:center;
-    box-shadow: 2px 2px 3px #999;
   border: none;
   cursor: pointer;
   font-weight: 400;
   font-size: 54px;
-  z-index: 1000;
+
 }
 .float:hover{
   background-color: rgb(27, 95, 221);
