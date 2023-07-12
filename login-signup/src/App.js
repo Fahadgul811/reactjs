@@ -1,36 +1,52 @@
+import { React, useState, useEffect } from "react";
+import { Route, Routes, Navigate } from "react-router-dom";
+import Signin from "./components/Signin";
+import HomeContainer from "./components/HomeContainer";
+import Protected from "./components/Protected";
+import Cookies from 'js-cookie';
 
-import './App.css';
-import {Route,Routes} from "react-router-dom";
-import Signin from './components/Signin';
-import HomeContainer from './components/HomeContainer';
-import Protected from './components/Protected';
-import SigninForm from './components/SigninForm';
-import { React, useState } from 'react';
+const App = () => {
+  const [isLoggedIn, setisLoggedIn] = useState(null);
+  const { get: getCookie } = Cookies;
 
+  useEffect(() => {
+    const isLoggedInCookie = getCookie("isLoggedIn");
+    if (isLoggedInCookie) {
+      setisLoggedIn(true);
+    }
+  }, [getCookie]);
 
-function App() {
-  const [isLoggedIn, setisLoggedIn] = useState(false);
+  const handleLoggedIn = () => {
+    setisLoggedIn(true);
+  };
 
-  const onLoggedIn = (value) => {
-    setisLoggedIn(value)
-  }
-
-  
+  const handleLoggedOut = () => {
+    setisLoggedIn(false);
+    Cookies.remove("isLoggedIn");
+  };
 
   return (
     <>
-   {isLoggedIn === false && <Signin onLoggedIn={onLoggedIn}/>}
-    <Routes>
-    <Route exact path="/*"element={ <Signin/>}/>
-    <Route path='HomeContainer' element={
-           <Protected isLoggedIn={isLoggedIn}>
-             <HomeContainer />
-           </Protected>
-         }/>
-   </Routes>
-   
+      <Routes>
+        {isLoggedIn ? (
+          <Route
+            path="/"
+            element={
+              <Protected isLoggedIn={isLoggedIn}>
+                <HomeContainer onLoggedOut={handleLoggedOut} />
+              </Protected>
+            }
+          />
+        ) : (
+          <Route
+            path="/"
+            element={<Signin onLoggedIn={handleLoggedIn} />}
+          />
+        )}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
     </>
   );
-}
+};
 
 export default App;

@@ -4,16 +4,18 @@ import SigninForm from "./SigninForm";
 import RegisterForm from "./RegisterForm";
 import { Routes, Route } from "react-router-dom";
 
-const Signin = ({onLoggedIn}) => {
-
-  
+const Signin = ({ onLoggedIn }) => {
   return (
     <div className={styles.main}>
       <div className={styles.mainbox}>
         <img className={styles.img} src={loginPerson} alt="" />
         <div className={styles.clip}>
           <Routes>
-            <Route exact path="/" element={<SigninForm onLoggedIn={onLoggedIn}/>} />
+            <Route
+              exact
+              path="/"
+              element={<SigninForm onLoggedIn={onLoggedIn} />}
+            />
             <Route exact path="RegisterForm" element={<RegisterForm />} />
           </Routes>
         </div>

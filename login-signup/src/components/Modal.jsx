@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./Modal.module.css";
 
-const Modal = ({ onClose}) => {
+const Modal = ({ onClose }) => {
   const id = Date.now();
   const date = new Date().toLocaleDateString();
   const [initialValue, setInitialValues] = useState({

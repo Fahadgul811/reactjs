@@ -1,20 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./SigninForm.module.css";
 import hide from "../images/hide.png";
 import RegisterForm from "./RegisterForm";
 import { useFormik } from "formik";
 import { signInSchema } from "../schemas";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const initialValues = {
   email: "",
   password: "",
 };
 
-const SigninForm = ({onLoggedIn}) => {
-console.log("🚀 ~ file: SigninForm.jsx:15 ~ SigninForm ~ onLoggedIn:", onLoggedIn)
+const SigninForm = ({ onLoggedIn }) => {
+  const { set: setCookie } = Cookies;
 
-  
+  const handleLogin = () => {
+    setCookie("isLoggedIn", true);
+    onLoggedIn();
+  };
   const navigate = useNavigate();
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
@@ -28,17 +32,12 @@ console.log("🚀 ~ file: SigninForm.jsx:15 ~ SigninForm ~ onLoggedIn:", onLogge
         );
         if (validate) {
           const id = validate.id;
-          
-            onLoggedIn(true);
-         
-          
-          
-          
+
+          handleLogin();
+
           localStorage.setItem("UserId", id);
           action.resetForm();
-          
-         
-        
+
           navigate("/HomeContainer");
           return;
         } else {
@@ -107,7 +106,7 @@ console.log("🚀 ~ file: SigninForm.jsx:15 ~ SigninForm ~ onLoggedIn:", onLogge
                   onClick={togglePassword}
                 />
               </div>
-              <button className={styles.signInBtn} type="submit" >
+              <button className={styles.signInBtn} type="submit">
                 Sign In
               </button>
             </div>
