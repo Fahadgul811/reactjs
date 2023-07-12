@@ -11,7 +11,10 @@ const initialValues = {
   password: "",
 };
 
-const SigninForm = () => {
+const SigninForm = ({onLoggedIn}) => {
+console.log("🚀 ~ file: SigninForm.jsx:15 ~ SigninForm ~ onLoggedIn:", onLoggedIn)
+
+  
   const navigate = useNavigate();
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
@@ -25,9 +28,17 @@ const SigninForm = () => {
         );
         if (validate) {
           const id = validate.id;
-
+          
+            onLoggedIn(true);
+         
+          
+          
+          
           localStorage.setItem("UserId", id);
           action.resetForm();
+          
+         
+        
           navigate("/HomeContainer");
           return;
         } else {
@@ -96,7 +107,7 @@ const SigninForm = () => {
                   onClick={togglePassword}
                 />
               </div>
-              <button className={styles.signInBtn} type="submit">
+              <button className={styles.signInBtn} type="submit" >
                 Sign In
               </button>
             </div>
