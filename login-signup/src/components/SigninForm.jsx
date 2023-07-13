@@ -38,7 +38,7 @@ const SigninForm = ({ onLoggedIn }) => {
           localStorage.setItem("UserId", id);
           action.resetForm();
 
-          navigate("/HomeContainer");
+          navigate("/");
           return;
         } else {
           alert("invalid credentials");

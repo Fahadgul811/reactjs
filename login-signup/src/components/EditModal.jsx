@@ -1,56 +1,41 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./Modal.module.css";
 
-const Modal = ({ onClose }) => {
-  const id = Date.now();
-  const date = new Date().toLocaleDateString();
+const EditModal = ({ onCloseEdit, onUpdate }) => {
   const [initialValue, setInitialValues] = useState({
-    title: "",
-    description: "",
+    title: onUpdate.title,
+    description: onUpdate.description,
   });
 
-  const addCard = (e) => {
+  const updateCard = (e) => {
     e.preventDefault();
+    const date = new Date().toLocaleDateString();
+    const notes = JSON.parse(localStorage.getItem("Notes")) || [];
     const UserId = localStorage.getItem("UserId");
-    const notesId = JSON.parse(localStorage.getItem("Notes")) || [];
+    const newNotes = JSON.parse(localStorage.getItem("Notes")) || [];
+    const desiredData = notes.find(
+      (value) => value.UserId === UserId
+    ).notesArray;
+    const notesId = onUpdate.id;
+    const index = desiredData.findIndex((note) => note.id == notesId);
 
-    let letters = "0123456789ABCDEF";
-
-    let color = "#";
-
-    for (let i = 0; i < 6; i++)
-      color += letters[Math.floor(Math.random() * 16)];
-
-    console.log(color);
-
-    const userNotes = {
+    const updatedNotes = {
       title: initialValue.title,
       description: initialValue.description,
-      id: id,
+      id: onUpdate.id,
       date: date,
-      color: color,
+      color: onUpdate.color,
     };
-    const unotes = notesId.find((value) => {
-      if (value.UserId === UserId) return value;
-    });
-    if (unotes !== undefined && unotes.UserId === UserId) {
-      const { notesArray } = unotes;
 
-      notesArray.push(userNotes);
-    } else {
-      const userData = {
-        UserId,
-        notesArray: [userNotes],
-      };
-      notesId.push(userData);
-    }
-    let validate = initialValue.title === "" && initialValue.description === "";
-    if (validate) {
-      alert("inputs empty");
-      return;
-    }
-    localStorage.setItem("Notes", JSON.stringify(notesId));
-    onClose();
+    desiredData.splice(index, 1, updatedNotes);
+    const oldArray = newNotes;
+    const updateUserData = { ...oldArray[index], notesArray: desiredData };
+
+    notes.splice(index, 1, updateUserData);
+
+    localStorage.setItem("Notes", JSON.stringify(notes));
+    console.log("🚀 ~ file: EditModal.jsx:27 ~ EditModal ~ notes:", notes);
+    onCloseEdit(false);
   };
 
   const ref = useRef();
@@ -58,8 +43,7 @@ const Modal = ({ onClose }) => {
     const checkIfClickedOutside = (e) => {
       if (ref.current && !ref.current.contains(e.target)) {
         console.log(!ref.current.contains(e.target));
-
-        onClose();
+        onCloseEdit();
       }
     };
     document.addEventListener("click", checkIfClickedOutside, true);
@@ -97,14 +81,14 @@ const Modal = ({ onClose }) => {
             <button
               className={styles.formAddbtn}
               type="submit"
-              onClick={addCard}
+              onClick={updateCard}
             >
-              Add Note
+              Update
             </button>
             <button
-              onClick={onClose}
               type="button"
               className={styles.formCancelbtn}
+              onClick={onCloseEdit}
             >
               Cancel
             </button>
@@ -114,5 +98,4 @@ const Modal = ({ onClose }) => {
     </div>
   );
 };
-
-export default Modal;
+export default EditModal;

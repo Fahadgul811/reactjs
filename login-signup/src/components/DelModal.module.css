@@ -1,0 +1,62 @@
+.delModal {
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.5);
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.trashDialog {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 400px;
+  height: 110px;
+  background-color: #9de;
+  border: 2px solid lightskyblue;
+  border-radius: 5px;
+  margin: 0;
+  gap: 15px;
+}
+.trashText {
+  color: midnightblue;
+  font-weight: 700;
+  font-size: 18px;
+  margin: 0;
+}
+.confirm {
+  width: 70px;
+  height: 30px;
+  border: none;
+  background-color: cornflowerblue;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 2px 2px 3px #999;
+  margin: 0;
+}
+.confirm:hover {
+  background-color: crimson;
+  color: #fff;
+}
+.no {
+  background-color: cornflowerblue;
+  width: 70px;
+  height: 30px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 2px 2px 3px #999;
+  margin: 0;
+}
+.no:hover {
+  background-color: darkcyan;
+  color: #fff;
+}
+.conformation {
+  display: flex;
+  gap: 10px;
+}

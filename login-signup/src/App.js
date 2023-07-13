@@ -39,7 +39,7 @@ const App = () => {
           />
         ) : (
           <Route
-            path="/"
+            exact path="*"
             element={<Signin onLoggedIn={handleLoggedIn} />}
           />
         )}
