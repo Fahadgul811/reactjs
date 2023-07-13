@@ -21,9 +21,10 @@ body {
 .float:hover {
   background-color: rgb(27, 95, 221);
 }
+
 .navbar {
   display: flex;
-  justify-content: right;
+  justify-content: space-between;
   height: 45px;
   width: auto;
   background-color: cornflowerblue;
@@ -32,13 +33,27 @@ body {
   align-items: center;
   box-shadow: rgb(61, 61, 59) 0px 12px 32px -13px;
 }
+.heading{
+ color: chocolate;
+ margin-left: 15px;
+}
+.imgMain{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.logout{
+ color: #fff;
+ font-size: 15px;
+}
 .logoutbtn {
   width: 35px;
   height: 35px;
   bottom: 20px;
   right: 20px;
+  margin-right: 15px;
   border-radius: 50px;
-  margin-right: 10px;
   cursor: pointer;
 }
 .cardsMain {
