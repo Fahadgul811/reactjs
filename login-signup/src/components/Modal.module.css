@@ -19,30 +19,33 @@
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  border: 2px solid;
+  border: none;
   height: auto;
   width: 355px;
   gap: 15px;
   padding: 15px;
-  border-radius: 5px;
-  background-color: lightskyblue;
-  border: 2px solid steelblue;
+  border-radius: 10px;
+  background-color: #2d787caa;
+  border: none;
 }
 .form textarea {
   width: 300px;
   height: 300px;
   padding: 10px;
-  border: 2px solid steelblue;
-  border-radius: 5px;
+  border: none;
+  border-radius: 7px;
   font-size: large;
+  border: 1px solid chocolate;
+  background-color: transparent;
 }
 .title {
   width: 300px;
   height: 15px;
   padding: 10px;
-  border: 2px solid steelblue;
+  border: 1px solid chocolate;
   border-radius: 5px;
   font-size: large;
+  background-color: transparent;
 }
 .formButtons {
   width: 323px;
