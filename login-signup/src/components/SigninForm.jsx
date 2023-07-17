@@ -6,6 +6,7 @@ import { useFormik } from "formik";
 import { signInSchema } from "../schemas";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import { signIn } from "../firebase/firebase";
 
 const initialValues = {
   email: "",
@@ -13,6 +14,8 @@ const initialValues = {
 };
 
 const SigninForm = ({ onLoggedIn }) => {
+  const [error, seterror] = useState("");
+
   const { set: setCookie } = Cookies;
 
   const handleLogin = () => {
@@ -20,30 +23,59 @@ const SigninForm = ({ onLoggedIn }) => {
     onLoggedIn();
   };
   const navigate = useNavigate();
+
+  const handleSubmission = async (values) => {
+    const { email, password } = values;
+    console.log(
+      "🚀 ~ file: SigninForm.jsx:67 ~ handleSubmission ~ email:",
+      email
+    );
+
+    if (!email) {
+      seterror("Email is required");
+      return;
+    }
+
+    try {
+      const res = await signIn(email, password);
+      console.log("🚀 ~ handleSubmission ~ res:", res);
+
+      if (res === true) {
+        handleLogin();
+        navigate("/");
+      } else if (res.error) {
+        seterror(res.error);
+      }
+    } catch (error) {
+      seterror(error.message);
+    }
+  };
+
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues,
       validationSchema: signInSchema,
-      onSubmit: (values, action) => {
-        const { email, password } = values;
-        const prev = JSON.parse(localStorage.getItem("registration"));
-        const validate = prev?.find(
-          (user) => user.email === email && user.password === password
-        );
-        if (validate) {
-          const id = validate.id;
+      onSubmit: handleSubmission,
 
-          handleLogin();
+      // const { email, password } = values;
 
-          localStorage.setItem("UserId", id);
-          action.resetForm();
+      // const prev = JSON.parse(localStorage.getItem("registration"));
+      // const validate = prev?.find(
+      //   (user) => user.email === email && user.password === password
+      // );
+      // if (validate) {
+      //   const id = validate.id;
 
-          navigate("/");
-          return;
-        } else {
-          alert("invalid credentials");
-        }
-      },
+      //   handleLogin();
+
+      //   localStorage.setItem("UserId", id);
+      //   action.resetForm();
+
+      //   navigate("/");
+      //   return;
+      // } else {
+      //   alert("invalid credentials");
+      // }
     });
 
   const [toggle, setToggle] = useState(false);

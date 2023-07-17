@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./Modal.module.css";
+import database from '../firebase/firebase';
 
 const Modal = ({ onClose }) => {
   const id = Date.now();
@@ -30,26 +31,32 @@ const Modal = ({ onClose }) => {
       date: date,
       color: color,
     };
-    const unotes = notesId.find((value) => {
-      if (value.UserId === UserId) return value;
-    });
-    if (unotes !== undefined && unotes.UserId === UserId) {
-      const { notesArray } = unotes;
+    database.collection("data").add(userNotes).then((docref) => {
+      alert("Data Successfully Submitted");
+  })
+  .catch((error) => {
+      console.error("Error adding document: ", error);
+  });
+    // const unotes = notesId.find((value) => {
+    //   if (value.UserId === UserId) return value;
+    // });
+    // if (unotes !== undefined && unotes.UserId === UserId) {
+    //   const { notesArray } = unotes;
 
-      notesArray.push(userNotes);
-    } else {
-      const userData = {
-        UserId,
-        notesArray: [userNotes],
-      };
-      notesId.push(userData);
-    }
-    let validate = initialValue.title === "" && initialValue.description === "";
-    if (validate) {
-      alert("inputs empty");
-      return;
-    }
-    localStorage.setItem("Notes", JSON.stringify(notesId));
+    //   notesArray.push(userNotes);
+    // } else {
+    //   const userData = {
+    //     UserId,
+    //     notesArray: [userNotes],
+    //   };
+    //   notesId.push(userData);
+    // }
+    // let validate = initialValue.title === "" && initialValue.description === "";
+    // if (validate) {
+    //   alert("inputs empty");
+    //   return;
+    // }
+    // localStorage.setItem("Notes", JSON.stringify(notesId));
     onClose();
   };
 

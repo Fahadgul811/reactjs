@@ -4,6 +4,8 @@ import hide from "../images/hide.png";
 import SigninForm from "./SigninForm";
 import { useFormik } from "formik";
 import { signUpSchema } from "../schemas";
+import { signUp } from "../firebase/firebase";
+import { useNavigate } from "react-router-dom";
 
 const initialValues = {
   name: "",
@@ -13,34 +15,42 @@ const initialValues = {
 };
 
 const RegisterForm = () => {
+  const [error, seterror] = useState("");
+  const handleSubmission = async (values) => {
+    const { email, password } = values;
+    const res = await signUp(email, password);
+    if (res === true) {
+      alert("Registrstion successful move to Login");
+    }
+    if (res.error) seterror(res.error);
+    console.log(error);
+  };
+  // const handleSubmission =() =>{
+  //   createUserWithEmailAndPassword(auth, saveUser.email, saveUser.password).then((res) =>{
+  //     console.log(res);
+  //   }).catch((err) => {
+  //     alert(err.message)
+  //   })
+  // }
+
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues,
       validationSchema: signUpSchema,
-      onSubmit: (values, action) => {
-        let id = Date.now();
-        const { name, email, password } = values;
-        const user = {
-          id,
-          name,
-          email,
-          password,
-        };
+      onSubmit: handleSubmission,
+      // const prev = JSON.parse(localStorage.getItem("registration"));
 
-        const prev = JSON.parse(localStorage.getItem("registration"));
+      // const validate = prev?.find((user) => user.email === email);
 
-        const validate = prev?.find((user) => user.email === email);
+      // if (validate) {
+      //   alert("user already exists");
+      //   return;
+      // }
+      // const update = [...(prev || []), user];
+      // localStorage.setItem("registration", JSON.stringify(update));
+      // alert("registration succcessful");
 
-        if (validate) {
-          alert("user already exists");
-          return;
-        }
-        const update = [...(prev || []), user];
-        localStorage.setItem("registration", JSON.stringify(update));
-        alert("registration succcessful");
-
-        action.resetForm();
-      },
+      // action.resetForm();
     });
 
   const [toggle, setToggle] = useState(false);

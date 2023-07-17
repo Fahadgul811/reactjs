@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styles from "./HomeContainer.module.css";
 import logoutImg from "../images/logout.png";
 import editImg from "../images/edit.svg";
@@ -7,7 +7,10 @@ import { motion } from "framer-motion";
 import DelModal from "./DelModal";
 import Modal from "./Modal";
 import EditModal from "./EditModal";
-import logo from "../images/logo.png"
+import { useNavigate, Navigate } from "react-router-dom";
+
+import AuthContext from "../AuthContext";
+
 const HomeContainer = ({ onLoggedOut }) => {
   const UserId = localStorage.getItem("UserId");
   const uId = parseInt(localStorage.getItem("UserId"), 10);
@@ -18,14 +21,17 @@ const HomeContainer = ({ onLoggedOut }) => {
   const [updateNote, setUpdateNote] = useState("");
   const prev = JSON.parse(localStorage.getItem("registration"));
   const displayUserName = prev.find((value) => value.id === uId);
-const displayName = [displayUserName];
- 
+  const displayName = [displayUserName];
+
   const getNotes = JSON.parse(localStorage.getItem("Notes")) || [];
 
   const desiredNotes = getNotes?.find(
     (value) => value.UserId === UserId
   )?.notesArray;
-  console.log("🚀 ~ file: HomeContainer.jsx:28 ~ HomeContainer ~ desiredNotes:", desiredNotes)
+  console.log(
+    "🚀 ~ file: HomeContainer.jsx:28 ~ HomeContainer ~ desiredNotes:",
+    desiredNotes
+  );
   const deleteData = () => {
     const notes = JSON.parse(localStorage.getItem("Notes")) || [];
     const UserId = localStorage.getItem("UserId");
@@ -59,38 +65,38 @@ const displayName = [displayUserName];
       window.removeEventListener("popstate", handlePopstate);
     };
   }, [onLoggedOut]);
+  const { user } = useContext(AuthContext);
+  if (!user) {
+    return <Navigate replace to="/" />;
+  }
   return (
     <div>
       {displayName && displayName.length > 0 ? (
-          displayName.map((user) => (
-      <div
-      key={user?.id}
-      className={styles.navbar}>
-        <div >
-        <h1 className={styles.heading}>NOTE SHOPPER</h1>
-        </div>
-      <div className={styles.imgMain}>
-        <p className={styles.logout}>
-        {user?.name}
-        </p>
-      <motion.img
-        whileHover={{scale: 1.2}}
-          className={styles.logoutbtn}
-          onClick={onLoggedOut}
-          src={logoutImg}
-          alt=""
-        />
-      </div>
-      </div>
+        displayName.map((user) => (
+          <div key={user?.id} className={styles.navbar}>
+            <div>
+              <h1 className={styles.heading}>NOTE SHOPPER</h1>
+            </div>
+            <div className={styles.imgMain}>
+              <p className={styles.logout}>{user?.name}</p>
+              <motion.img
+                whileHover={{ scale: 1.2 }}
+                className={styles.logoutbtn}
+                onClick={onLoggedOut}
+                src={logoutImg}
+                alt=""
+              />
+            </div>
+          </div>
         ))
-        ) : (
-          <div>User Name</div>
-        )}
+      ) : (
+        <div>User Name</div>
+      )}
       <div className={styles.cardsMain}>
         {desiredNotes && desiredNotes.length > 0 ? (
           desiredNotes.map((note) => (
             <motion.div
-            whileHover={{scale: 1.1}}
+              whileHover={{ scale: 1.1 }}
               key={note?.id}
               style={{ backgroundColor: note?.color }}
               className={styles.card}
@@ -127,7 +133,11 @@ const displayName = [displayUserName];
         )}
       </div>
 
-      <motion.button whileHover={{scale: 1.2}} onClick={() => setModal(true)} className={styles.float}>
+      <motion.button
+        whileHover={{ scale: 1.2 }}
+        onClick={() => setModal(true)}
+        className={styles.float}
+      >
         +
       </motion.button>
       {modal === true && <Modal onClose={() => setModal(false)} />}
