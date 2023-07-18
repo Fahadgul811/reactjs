@@ -4,7 +4,7 @@ import hide from "../images/hide.png";
 import SigninForm from "./SigninForm";
 import { useFormik } from "formik";
 import { signUpSchema } from "../schemas";
-import { signUp } from "../firebase/firebase";
+import { signUp } from "../../firebase/firebase";
 import { useNavigate } from "react-router-dom";
 
 const initialValues = {
@@ -16,11 +16,16 @@ const initialValues = {
 
 const RegisterForm = () => {
   const [error, seterror] = useState("");
-  const handleSubmission = async (values) => {
-    const { email, password } = values;
-    const res = await signUp(email, password);
+  function refreshPage() {
+    window.location.reload(false);
+  }
+  const handleSubmission = async (values, action) => {
+    const { email, password, name } = values;
+    const res = await signUp(email, password, name);
     if (res === true) {
       alert("Registrstion successful move to Login");
+      action.resetForm();
+      refreshPage()
     }
     if (res.error) seterror(res.error);
     console.log(error);

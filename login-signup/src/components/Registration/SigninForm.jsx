@@ -6,7 +6,7 @@ import { useFormik } from "formik";
 import { signInSchema } from "../schemas";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import { signIn } from "../firebase/firebase";
+import { signIn } from "../../firebase/firebase";
 
 const initialValues = {
   email: "",

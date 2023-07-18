@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./Modal.module.css";
-import database from '../firebase/firebase';
+import database from '../../firebase/firebase';
 
 const Modal = ({ onClose }) => {
   const id = Date.now();

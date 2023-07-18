@@ -13,7 +13,7 @@ const Signin = ({ onLoggedIn }) => {
           <Routes>
             <Route
               exact
-              path="/"
+              path="/*"
               element={<SigninForm onLoggedIn={onLoggedIn} />}
             />
             <Route exact path="RegisterForm" element={<RegisterForm />} />

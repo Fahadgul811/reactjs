@@ -7,9 +7,9 @@ import { motion } from "framer-motion";
 import DelModal from "./DelModal";
 import Modal from "./Modal";
 import EditModal from "./EditModal";
-import { useNavigate, Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
-import AuthContext from "../AuthContext";
+import AuthContext from "../../Authentication/AuthContext";
 
 const HomeContainer = ({ onLoggedOut }) => {
   const UserId = localStorage.getItem("UserId");

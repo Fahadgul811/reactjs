@@ -1,5 +1,5 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
+import app from "../firebase/FirebaseConfig";
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -7,33 +7,10 @@ import {
 } from "firebase/auth";
 import { getFirestore, addDoc, collection } from "firebase/firestore";
 
-// import firebase from 'firebase';
-
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyC1rl8g-zqMwf9uQFb_dXZx3hIEH8ZmIMM",
-  authDomain: "notesapp-c17e4.firebaseapp.com",
-  projectId: "notesapp-c17e4",
-  storageBucket: "notesapp-c17e4.appspot.com",
-  messagingSenderId: "142198661126",
-  appId: "1:142198661126:web:95e049c0f7097383da6387",
-  measurementId: "G-Y8LBBMNGG8",
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-
-// firebase.initializeApp(firebaseConfig);
-//  const database = firestore();
-
 const db = getFirestore();
 
 const auth = getAuth();
-export const signUp = async (email, password) => {
+export const signUp = async (email, password, name) => {
   try {
     const userCredential = await createUserWithEmailAndPassword(
       auth,
@@ -44,6 +21,8 @@ export const signUp = async (email, password) => {
     await addDoc(collection(db, "users"), {
       uid: user.uid,
       email: user.email,
+      password: password,
+      name: name
     });
     return true;
   } catch (error) {
@@ -64,4 +43,4 @@ export const signIn = async (email, password) => {
   }
 };
 
-export default { app, database: db };
+export default { database: db };
