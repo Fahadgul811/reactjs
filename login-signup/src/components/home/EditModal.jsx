@@ -1,43 +1,30 @@
-import React, { useEffect, useRef, useState } from "react";
+import  { useEffect, useRef, useState,useContext } from "react";
 import styles from "./Modal.module.css";
+import { db } from "../../firebase/firebase";
+import { doc ,updateDoc} from "firebase/firestore";
+import AuthContext from "../../Authentication/AuthContext";
 
 const EditModal = ({ onCloseEdit, onUpdate }) => {
   const [initialValue, setInitialValues] = useState({
     title: onUpdate.title,
     description: onUpdate.description,
   });
-
-  const updateCard = (e) => {
+  const { user } = useContext(AuthContext);
+  const updateCard = async (e) => {
     e.preventDefault();
     const date = new Date().toLocaleDateString();
-    const notes = JSON.parse(localStorage.getItem("Notes")) || [];
-    const UserId = localStorage.getItem("UserId");
-    const newNotes = JSON.parse(localStorage.getItem("Notes")) || [];
-    const desiredData = notes.find(
-      (value) => value.UserId === UserId
-    ).notesArray;
-    const notesId = onUpdate.id;
-    const index = desiredData.findIndex((note) => note.id == notesId);
-
-    const updatedNotes = {
+  const updatedNotes = {
       title: initialValue.title,
       description: initialValue.description,
       id: onUpdate.id,
       date: date,
       color: onUpdate.color,
-    };
-
-    desiredData.splice(index, 1, updatedNotes);
-    const oldArray = newNotes;
-    const updateUserData = { ...oldArray[index], notesArray: desiredData };
-
-    notes.splice(index, 1, updateUserData);
-
-    localStorage.setItem("Notes", JSON.stringify(notes));
-    console.log("🚀 ~ file: EditModal.jsx:27 ~ EditModal ~ notes:", notes);
+      uid: user.uid,
+    }
+    const editCard = doc(db, "notes", onUpdate.id.toString());
+    await updateDoc(editCard, updatedNotes);
     onCloseEdit(false);
   };
-
   const ref = useRef();
   useEffect(() => {
     const checkIfClickedOutside = (e) => {

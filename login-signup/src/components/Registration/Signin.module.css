@@ -4,16 +4,13 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
-
   margin: 0;
 }
-
 .mainbox {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-
 .clip {
   display: flex;
   align-items: center;

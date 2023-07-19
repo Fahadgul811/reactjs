@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styles from "./SigninForm.module.css";
 import hide from "../images/hide.png";
 import RegisterForm from "./RegisterForm";
@@ -12,34 +12,22 @@ const initialValues = {
   email: "",
   password: "",
 };
-
 const SigninForm = ({ onLoggedIn }) => {
   const [error, seterror] = useState("");
-
   const { set: setCookie } = Cookies;
-
   const handleLogin = () => {
     setCookie("isLoggedIn", true);
     onLoggedIn();
   };
   const navigate = useNavigate();
-
   const handleSubmission = async (values) => {
     const { email, password } = values;
-    console.log(
-      "🚀 ~ file: SigninForm.jsx:67 ~ handleSubmission ~ email:",
-      email
-    );
-
     if (!email) {
       seterror("Email is required");
       return;
     }
-
     try {
       const res = await signIn(email, password);
-      console.log("🚀 ~ handleSubmission ~ res:", res);
-
       if (res === true) {
         handleLogin();
         navigate("/");
@@ -50,40 +38,16 @@ const SigninForm = ({ onLoggedIn }) => {
       seterror(error.message);
     }
   };
-
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues,
       validationSchema: signInSchema,
       onSubmit: handleSubmission,
-
-      // const { email, password } = values;
-
-      // const prev = JSON.parse(localStorage.getItem("registration"));
-      // const validate = prev?.find(
-      //   (user) => user.email === email && user.password === password
-      // );
-      // if (validate) {
-      //   const id = validate.id;
-
-      //   handleLogin();
-
-      //   localStorage.setItem("UserId", id);
-      //   action.resetForm();
-
-      //   navigate("/");
-      //   return;
-      // } else {
-      //   alert("invalid credentials");
-      // }
     });
-
   const [toggle, setToggle] = useState(false);
-
   const switchToSignup = () => {
     setToggle(true);
   };
-
   const [passwordType, setPasswordType] = useState("password");
   const togglePassword = () => {
     if (passwordType === "password") {

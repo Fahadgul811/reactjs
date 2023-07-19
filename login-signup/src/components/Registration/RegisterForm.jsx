@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styles from "./RegisterForm.module.css";
 import hide from "../images/hide.png";
 import SigninForm from "./SigninForm";
 import { useFormik } from "formik";
 import { signUpSchema } from "../schemas";
 import { signUp } from "../../firebase/firebase";
-import { useNavigate } from "react-router-dom";
 
 const initialValues = {
   name: "",
@@ -20,45 +19,23 @@ const RegisterForm = () => {
     window.location.reload(false);
   }
 
-
-  
   const handleSubmission = async (values, action) => {
     const { email, password, name } = values;
     const res = await signUp(email, password, name);
     if (res === true) {
       alert("Registrstion successful move to Login");
       action.resetForm();
-      refreshPage()
+      refreshPage();
     }
     if (res.error) seterror(res.error);
     console.log(error);
   };
-  // const handleSubmission =() =>{
-  //   createUserWithEmailAndPassword(auth, saveUser.email, saveUser.password).then((res) =>{
-  //     console.log(res);
-  //   }).catch((err) => {
-  //     alert(err.message)
-  //   })
-  // }
 
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues,
       validationSchema: signUpSchema,
       onSubmit: handleSubmission,
-      // const prev = JSON.parse(localStorage.getItem("registration"));
-
-      // const validate = prev?.find((user) => user.email === email);
-
-      // if (validate) {
-      //   alert("user already exists");
-      //   return;
-      // }
-      // const update = [...(prev || []), user];
-      // localStorage.setItem("registration", JSON.stringify(update));
-      // alert("registration succcessful");
-
-      // action.resetForm();
     });
 
   const [toggle, setToggle] = useState(false);

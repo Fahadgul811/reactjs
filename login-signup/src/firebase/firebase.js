@@ -1,17 +1,19 @@
-// Import the functions you need from the SDKs you need
-import app from "../firebase/FirebaseConfig";
+import app from "./FirebaseConfig"
+
 import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { getFirestore, addDoc, collection, getDoc, query } from "firebase/firestore";
+import {
+  getFirestore,
+  addDoc,
+  collection,
+} from "firebase/firestore";
 
-const db = getFirestore();
+export const db = getFirestore();
 
 export const auth = getAuth();
-
-
 
 export const signUp = async (email, password, name) => {
   try {
@@ -25,7 +27,7 @@ export const signUp = async (email, password, name) => {
       uid: user.uid,
       email: user.email,
       password: password,
-      name: name
+      name: name,
     });
     return true;
   } catch (error) {
