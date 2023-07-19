@@ -19,6 +19,9 @@ const RegisterForm = () => {
   function refreshPage() {
     window.location.reload(false);
   }
+
+
+  
   const handleSubmission = async (values, action) => {
     const { email, password, name } = values;
     const res = await signUp(email, password, name);

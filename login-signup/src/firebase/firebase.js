@@ -5,11 +5,14 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { getFirestore, addDoc, collection } from "firebase/firestore";
+import { getFirestore, addDoc, collection, getDoc, query } from "firebase/firestore";
 
 const db = getFirestore();
 
-const auth = getAuth();
+export const auth = getAuth();
+
+
+
 export const signUp = async (email, password, name) => {
   try {
     const userCredential = await createUserWithEmailAndPassword(
@@ -43,4 +46,4 @@ export const signIn = async (email, password) => {
   }
 };
 
-export default { database: db };
+export default { db };
