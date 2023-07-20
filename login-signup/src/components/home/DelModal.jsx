@@ -8,7 +8,6 @@ const DelModal = ({ onCross, onDel }) => {
     const checkIfClickedOutside = (e) => {
       if (ref.current && !ref.current.contains(e.target)) {
         console.log(!ref.current.contains(e.target));
-
         onCross();
       }
     };
@@ -17,6 +16,7 @@ const DelModal = ({ onCross, onDel }) => {
       document.removeEventListener("click", checkIfClickedOutside, true);
     };
   }, [ref]);
+  
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => {

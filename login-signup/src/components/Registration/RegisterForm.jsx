@@ -4,7 +4,7 @@ import hide from "../images/hide.png";
 import SigninForm from "./SigninForm";
 import { useFormik } from "formik";
 import { signUpSchema } from "../schemas";
-import { signUp } from "../../firebase/firebase";
+import { signUp } from "../../firebase/firebaseFunctions";
 
 const initialValues = {
   name: "",

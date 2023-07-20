@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useCallback } from "react";
 import styles from "./HomeContainer.module.css";
 import logoutImg from "../images/logout.png";
 import editImg from "../images/edit.svg";
@@ -6,8 +6,7 @@ import Xmark from "../images/xmark.svg";
 import { motion } from "framer-motion";
 import DelModal from "./DelModal";
 import Modal from "./Modal";
-import EditModal from "./EditModal";
-import { Navigate, json } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import AuthContext from "../../Authentication/AuthContext";
 import {
   collection,
@@ -17,40 +16,36 @@ import {
   deleteDoc,
   doc,
 } from "firebase/firestore";
-import { db } from "../../firebase/firebase";
+import { db } from "../../firebase/firebaseFunctions";
 
 const HomeContainer = ({ onLoggedOut }) => {
   const [modal, setModal] = useState(false);
   const [delModal, setDelModal] = useState(false);
   const [id, setId] = useState("");
-  const [editModal, setEditModal] = useState(false);
   const [updateNote, setUpdateNote] = useState("");
   const [desiredNotes, setDesiredNotes] = useState("");
   const [displayName, setUsername] = useState(null);
 
   const { user } = useContext(AuthContext);
 
+  const fetchUser = useCallback(async () => {
+    try {
+      const notesCollection = collection(db, "users");
+      const notesQuery = query(notesCollection, where("uid", "==", user.uid));
+
+      const querySnapshot = await getDocs(notesQuery);
+
+      const Users = querySnapshot.docs.map((doc) => {
+        return doc.data();
+      });
+      setUsername(Users);
+    } catch (error) {
+      console.error("Error getting documents: ", error.message);
+    }
+  }, [user, setUsername, db]);
+
   useEffect(() => {
     if (user !== null) {
-      const fetchUser = async () => {
-        try {
-          const notesCollection = collection(db, "users");
-          const notesQuery = query(
-            notesCollection,
-            where("uid", "==", user.uid)
-          );
-
-          const querySnapshot = await getDocs(notesQuery);
-
-          const Users = querySnapshot.docs.map((doc) => {
-            return doc.data();
-          });
-          setUsername(Users);
-        } catch (error) {
-          console.error("Error getting documents: ", error.message);
-        }
-      };
-
       fetchUser();
     }
   }, [user]);
@@ -87,27 +82,28 @@ const HomeContainer = ({ onLoggedOut }) => {
       .catch((error) => {
         console.log(error);
       });
-
     setDelModal(false);
   };
+
   const handleEdit = (note) => {
     setUpdateNote(note);
-
-    setEditModal(true);
+    setModal(true);
   };
+
   useEffect(() => {
     const handlePopstate = () => {
       onLoggedOut();
-    };
     window.addEventListener("popstate", handlePopstate);
     return () => {
       window.removeEventListener("popstate", handlePopstate);
     };
-  }, [onLoggedOut]);
+  }},[onLoggedOut]);
 
-  if (!user) {
-    return <Navigate replace to="/" />;
-  }
+  const onClose = () => {
+    setModal(false);
+    setUpdateNote();
+  };
+
   return (
     <div>
       {displayName && displayName.length > 0 ? (
@@ -135,7 +131,7 @@ const HomeContainer = ({ onLoggedOut }) => {
         {desiredNotes && desiredNotes.length > 0 ? (
           desiredNotes.map((note) => (
             <motion.div
-              whileHover={{ scale: 1.1 }}
+              whileHover={{ scale: 1.03 }}
               key={note?.id}
               style={{ backgroundColor: note?.color }}
               className={styles.card}
@@ -171,7 +167,6 @@ const HomeContainer = ({ onLoggedOut }) => {
           </div>
         )}
       </div>
-
       <motion.button
         whileHover={{ scale: 1.2 }}
         onClick={() => setModal(true)}
@@ -179,15 +174,9 @@ const HomeContainer = ({ onLoggedOut }) => {
       >
         +
       </motion.button>
-      {modal === true && <Modal onClose={() => setModal(false)} />}
+      {modal === true && <Modal onUpdate={updateNote} onClose={onClose} />}
       {delModal === true && (
         <DelModal onDel={deleteData} onCross={() => setDelModal(false)} />
-      )}
-      {editModal === true && (
-        <EditModal
-          onUpdate={updateNote}
-          onCloseEdit={() => setEditModal(false)}
-        />
       )}
     </div>
   );

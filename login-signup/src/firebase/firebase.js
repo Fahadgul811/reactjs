@@ -1,51 +1,23 @@
-import app from "./FirebaseConfig"
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
-import {
-  getFirestore,
-  addDoc,
-  collection,
-} from "firebase/firestore";
-
-export const db = getFirestore();
-
-export const auth = getAuth();
-
-export const signUp = async (email, password, name) => {
-  try {
-    const userCredential = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-    const user = userCredential.user;
-    await addDoc(collection(db, "users"), {
-      uid: user.uid,
-      email: user.email,
-      password: password,
-      name: name,
-    });
-    return true;
-  } catch (error) {
-    return { error: error.message };
-  }
-};
-export const signIn = async (email, password) => {
-  try {
-    const userCredential = await signInWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-    const user = userCredential.user;
-    return true;
-  } catch (error) {
-    return { error: error.message };
-  }
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyCvlz2cx-RU8zda6xQj5O5KgNWXD5RUEhY",
+  authDomain: "note-d954b.firebaseapp.com",
+  projectId: "note-d954b",
+  storageBucket: "note-d954b.appspot.com",
+  messagingSenderId: "242369110960",
+  appId: "1:242369110960:web:bf3d09e824e14fd4efec75",
+  measurementId: "G-PZNFZ43R93"
 };
 
-export default { db };
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+
+export default {app};
