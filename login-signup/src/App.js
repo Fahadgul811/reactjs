@@ -4,11 +4,9 @@ import { AuthProvider } from "./Authentication/AuthProvider";
 
 const App = () => {
   return (
-    <>
-      <AuthProvider>
+
         <NotesAppRoutes />
-      </AuthProvider>
-    </>
+  
   );
 };
 

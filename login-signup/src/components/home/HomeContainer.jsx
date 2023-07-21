@@ -6,8 +6,9 @@ import Xmark from "../images/xmark.svg";
 import { motion } from "framer-motion";
 import DelModal from "./DelModal";
 import Modal from "./Modal";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import AuthContext from "../../Authentication/AuthContext";
+import Loader from "./Loader";
 import {
   collection,
   getDocs,
@@ -17,16 +18,27 @@ import {
   doc,
 } from "firebase/firestore";
 import { db } from "../../firebase/firebaseFunctions";
-
-const HomeContainer = ({ onLoggedOut }) => {
+const HomeContainer = () => {
   const [modal, setModal] = useState(false);
   const [delModal, setDelModal] = useState(false);
   const [id, setId] = useState("");
   const [updateNote, setUpdateNote] = useState("");
   const [desiredNotes, setDesiredNotes] = useState("");
   const [displayName, setUsername] = useState(null);
+const [Loading, setLoading] = useState(true);
+  const { user, logout } = useContext(AuthContext);
+const navigate = useNavigate();
 
-  const { user } = useContext(AuthContext);
+const handleLoggedOut = async () => {
+    try{
+await logout();
+navigate("/");
+
+    }
+    catch(error){
+      console.log(error.message)
+    }
+  };
 
   const fetchUser = useCallback(async () => {
     try {
@@ -34,9 +46,10 @@ const HomeContainer = ({ onLoggedOut }) => {
       const notesQuery = query(notesCollection, where("uid", "==", user.uid));
 
       const querySnapshot = await getDocs(notesQuery);
-
+      
       const Users = querySnapshot.docs.map((doc) => {
         return doc.data();
+        
       });
       setUsername(Users);
     } catch (error) {
@@ -47,6 +60,7 @@ const HomeContainer = ({ onLoggedOut }) => {
   useEffect(() => {
     if (user !== null) {
       fetchUser();
+      
     }
   }, [user]);
 
@@ -57,7 +71,7 @@ const HomeContainer = ({ onLoggedOut }) => {
         const notesQuery = query(notesCollection, where("uid", "==", user.uid));
 
         const querySnapshot = await getDocs(notesQuery);
-
+        setLoading(false);
         const notes = querySnapshot.docs.map((doc) => {
           return doc.data();
         });
@@ -67,8 +81,11 @@ const HomeContainer = ({ onLoggedOut }) => {
       }
     };
     fetchNotes();
+ 
   }
-
+  if (Loading) {
+    return <Loader />
+  }
   const handleDelete = (key) => {
     setId(key);
     setDelModal(true);
@@ -90,14 +107,14 @@ const HomeContainer = ({ onLoggedOut }) => {
     setModal(true);
   };
 
-  useEffect(() => {
-    const handlePopstate = () => {
-      onLoggedOut();
-    window.addEventListener("popstate", handlePopstate);
-    return () => {
-      window.removeEventListener("popstate", handlePopstate);
-    };
-  }},[onLoggedOut]);
+  // useEffect(() => {
+  //   const handlePopstate = () => {
+  //     onLoggedOut();
+  //   window.addEventListener("popstate", handlePopstate);
+  //   return () => {
+  //     window.removeEventListener("popstate", handlePopstate);
+  //   };
+  // }},[onLoggedOut]);
 
   const onClose = () => {
     setModal(false);
@@ -117,7 +134,7 @@ const HomeContainer = ({ onLoggedOut }) => {
               <motion.img
                 whileHover={{ scale: 1.2 }}
                 className={styles.logoutbtn}
-                onClick={onLoggedOut}
+                onClick={handleLoggedOut}
                 src={logoutImg}
                 alt=""
               />

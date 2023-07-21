@@ -1,8 +1,17 @@
 import { Navigate } from "react-router-dom";
-const Protected = ({ isLoggedIn, children }) => {
-  if (!isLoggedIn) {
-    return <Navigate to="/" replace />;
+import { useContext } from "react";
+import AuthContext from "../../Authentication/AuthContext";
+
+
+
+const Protected = ({ children }) => {
+  
+  const { user } = useContext(AuthContext);
+
+  if (user !== null) {
+    return children;
   }
-  return children;
+  return <Navigate to="/" replace />;
+
 };
 export default Protected;

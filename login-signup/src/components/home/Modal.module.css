@@ -36,7 +36,7 @@
   border-radius: 7px;
   font-size: large;
   border: 1px solid chocolate;
-  background-color: transparent;
+  background-color: rgba(141, 159, 159, 0.714);
 }
 .title {
   width: 300px;
@@ -45,7 +45,7 @@
   border: 1px solid chocolate;
   border-radius: 5px;
   font-size: large;
-  background-color: transparent;
+  background-color: rgba(141, 159, 159, 0.714);
 }
 .formButtons {
   width: 323px;

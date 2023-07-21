@@ -15,10 +15,10 @@ const initialValues = {
 const SigninForm = ({ onLoggedIn }) => {
   const [error, seterror] = useState("");
   const { set: setCookie } = Cookies;
-  const handleLogin = () => {
-    setCookie("isLoggedIn", true);
-    onLoggedIn();
-  };
+  // const handleLogin = () => {
+  //   setCookie("isLoggedIn", true);
+  //   onLoggedIn();
+  // };
   const navigate = useNavigate();
   const handleSubmission = async (values) => {
     const { email, password } = values;
@@ -29,13 +29,16 @@ const SigninForm = ({ onLoggedIn }) => {
     try {
       const res = await signIn(email, password);
       if (res === true) {
-        handleLogin();
-        navigate("/");
+        console.log("success");
+        
+        navigate("/HomeContainer");
       } else if (res.error) {
         seterror(res.error);
+        alert("invalid user");
       }
     } catch (error) {
       seterror(error.message);
+      
     }
   };
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
